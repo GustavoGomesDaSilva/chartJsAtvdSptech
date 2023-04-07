@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="style.css" />
+    <title>Implementando o chart.js</title>
+  </head>
+  <body>
+    <main>
+      <article id="menuEsquerda">
+        <section id="topoMenuEsquerda">
+          <img src="imgs/logo.png" alt="" />
+          <p id="nomeUsuario" name="nomeUsuario">Nome do usuario</p>
+          <!-- <p id="nomeUsuario" name="nomeUsuario">Analista de Dados</p> -->
+        </section>
+        <section id="opcoesMenu">
+          <ul>
+            <li style="color: #2e811e; text-decoration: dashed;"><img src="imgs/graficIcon.png" id="iconGrafico" alt="" />Relatorios</li>
+            <li><img src="imgs/termometro.png" alt="" /> Temperatura</li>
+            <li><img src="imgs/umidade.png" alt="" /> Umidade</li>
+          </ul>
+        </section>
+      </article>
+      <article id="graficos">
+        <div style="position: relative; height: 45vh; width: 50vw;">
+          <canvas id="myChart"></canvas>
+        </div>        
+        <div style="position: relative; height: 45vh; width: 50vw">
+          <canvas id="myChartLine"></canvas>
+        </div>
+      </article>
+    </main>
+  </body>
+  <script>
+    const ctx = document.getElementById("myChart");
+    const ctxLine = document.getElementById("myChartLine");
+
+    new Chart(ctx, {
+      type: "bar",
+      data: {
+        labels: ["12:00", "13:00", "14:00", "15:00", "16:00", "17:00"],
+        datasets: [
+          {
+            label: "Temperatura",
+            data: [30, 29, 28, 25, 25, 23],
+            backgroundColor: "#E37F2A",
+            borderWidth: 1,
+          },
+          {
+            label: "Umidade",
+            data: [80, 82, 80, 85, 80, 83],
+            backgroundColor: "#39842C",
+            borderWidth: 1,
+          },
+        ],
+      },
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true,
+          },
+        },
+      },
+    });
+
+    // grafico em linhas começo
+    new Chart(ctxLine, {
+      type: "line",
+      data: {
+        labels: ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho"],
+        datasets: [
+          {
+            label: "Temperatura",
+            data: [22, 24, 27, 23, 20, 18],
+            backgroundColor: "#E37F2A",
+            borderColor: "#E37F2f",
+            borderWidth: 1,
+          },
+          {
+            label: "Umidade",
+            data: [90, 89, 93, 87, 88, 82],
+            backgroundColor: "#39842C",
+            borderColor: "#39842f",
+            borderWidth: 1,
+          },
+        ],
+      },
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true,
+          },
+        },
+      },
+    });
+  </script>
+</html>
