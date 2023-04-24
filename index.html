@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/x-icon" href="imgs/logotipo.png" />
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="style.css" />
     <title>Implementando o chart.js</title>
@@ -13,30 +14,163 @@
       <article id="menuEsquerda">
         <section id="topoMenuEsquerda">
           <img src="imgs/logo.png" alt="" />
-          <p id="nomeUsuario" name="nomeUsuario">Nome do usuario</p>
+          <p id="nomeUsuario" name="nomeUsuario">Sadia</p>
+          <p id="nomeUsuario" name="nomeUsuario">Roberto Justos</p>
+          <div>
+            <a href="#"><img src="imgs/SignOut.png" alt="" /></a>
+          </div>
           <!-- <p id="nomeUsuario" name="nomeUsuario">Analista de Dados</p> -->
         </section>
         <section id="opcoesMenu">
           <ul>
-            <li style="color: #2e811e; text-decoration: dashed;"><img src="imgs/graficIcon.png" id="iconGrafico" alt="" />Relatorios</li>
-            <li><img src="imgs/termometro.png" alt="" /> Temperatura</li>
-            <li><img src="imgs/umidade.png" alt="" /> Umidade</li>
+            <button id="relatorio">
+              <img src="imgs/graficIcon.png" id="graficIcon" alt="" /> Relatório
+            </button>
+            <button id="temperatura">
+              <img src="imgs/termometro.png" alt="" /> Temperatura
+            </button>
+            <button id="umidade">
+              <img src="imgs/umidade.png" alt="" /> Umidade
+            </button>
           </ul>
         </section>
       </article>
       <article id="graficos">
-        <div style="position: relative; height: 45vh; width: 50vw;">
-          <canvas id="myChart"></canvas>
-        </div>        
-        <div style="position: relative; height: 45vh; width: 50vw">
-          <canvas id="myChartLine"></canvas>
+        <div id="filtro">
+          <h3>Filtrar:</h3>
+          <div style="display: flex;
+          align-items: center;">
+            <select name="" id="" style="width: fit-content; background-color: transparent;">
+              <option value=""></option>
+              <option value="">Galpão 1</option>
+              <option value="">Galpão 2</option>
+              <option value="">Galpão 3</option>
+            </select>
+            <img src="imgs/Filter.png" alt="" />
+          </div>
         </div>
+        <div id="referencia">
+          <p>Empresa:</p>
+          <p class="verde" id="nomeEmpresa">Sadia -</p>
+          <p>Galpão</p>
+          <p class="verde" id="numGalpao">1</p>
+        </div>
+        <section id="areaRelatorio">
+          <article id="graficoRelatorioGeral">
+            <section class="graficoRelatorio">
+              <h5 class="laranja">
+                Gráfico em barras de temperatura e umidade - dia 05/05
+              </h5>
+              <div style="position: relative; height: 27vh; width: 27vw">
+                <canvas id="myChart"></canvas>
+              </div>
+            </section>
+            <section id="picos">
+              <h4>
+                Pico de temperatura:
+                <p class="verde" id="picoTemperatura">15:00h</p>
+              </h4>
+              <h4>
+                Pico de Umidade:
+                <p class="verde" id="picoUmidade">17:00h</p>
+              </h4>
+            </section>
+            <section id="media">
+              <div>
+                <h5 style="margin-bottom: 5px">Media Temperatura</h5>
+                <img src="imgs/mediaTemperatura.PNG" alt="" />
+              </div>
+              <div>
+                <h5 style="margin-bottom: 5px">Media Umidade</h5>
+                <img src="imgs/mediaUmidade.PNG" alt="" />
+              </div>
+            </section>
+            <section class="graficoRelatorio">
+              <h5 class="laranja">
+                Gráfico em barras de temperatura e umidade - dia 05/05
+              </h5>
+              <div style="position: relative; height: 27vh; width: 27vw">
+                <canvas id="myChartLine"></canvas>
+              </div>
+            </section>
+          </article>
+        </section>
+
+        <section id="areaTemperatura" style="display: none">
+          <article id="graficoTemperatura">
+            <div
+              id="graficoLinhaTemp"
+              style="position: relative; height: 40vh; width: 40vw"
+            >
+              <h4>Média de temperatura nos últimos 7 dias</h4>
+
+              <canvas id="myChartLineTemp"></canvas>
+            </div>
+            <div>
+              <section id="tempIndicador">
+                <div>
+                  <h4>4% mais quente que na semana anterior</h4>
+                </div>
+                <img src="imgs/termometroIndicador.png" alt="" />
+              </section>
+            </div>
+          </article>
+        </section>
+
+        <section id="areaUmidade" style="display: none">
+          <h2>Dashboard 3</h2>
+          <p>Este é o painel de dashboard 3.</p>
+        </section>
       </article>
     </main>
   </body>
   <script>
+    // comandos para trocar os graficos ao clicar nos botoes laterais
+
+    // Selecionar os botões e os painéis de dashboard
+    var relatorio = document.getElementById("relatorio");
+    var temperatura = document.getElementById("temperatura");
+    var umidade = document.getElementById("umidade");
+    var areaRelatorio = document.getElementById("areaRelatorio");
+    var areaTemperatura = document.getElementById("areaTemperatura");
+    var areaUmidade = document.getElementById("areaUmidade");
+
+    // Adicionar um evento de clique a cada botão
+    relatorio.addEventListener("click", function () {
+      areaRelatorio.style.display = "block";
+      areaTemperatura.style.display = "none";
+      areaUmidade.style.display = "none";
+
+      areaTemperatura.classList.remove("fade");
+      areaUmidade.classList.remove("fade");
+      areaRelatorio.classList.add("fade");
+    });
+
+    temperatura.addEventListener("click", function () {
+      areaRelatorio.style.display = "none";
+      areaTemperatura.style.display = "block";
+      areaUmidade.style.display = "none";
+
+      areaRelatorio.classList.remove("fade");
+      areaUmidade.classList.remove("fade");
+      areaTemperatura.classList.add("fade");
+    });
+
+    umidade.addEventListener("click", function () {
+      areaRelatorio.style.display = "none";
+      areaTemperatura.style.display = "none";
+      areaUmidade.style.display = "block";
+
+      areaRelatorio.classList.remove("fade");
+      areaTemperatura.classList.remove("fade");
+      areaUmidade.classList.add("fade");
+    });
+
+    // graficos em chart js
+
     const ctx = document.getElementById("myChart");
     const ctxLine = document.getElementById("myChartLine");
+    const ctxLineTemp = document.getElementById("myChartLineTemp");
 
     new Chart(ctx, {
       type: "bar",
@@ -45,13 +179,13 @@
         datasets: [
           {
             label: "Temperatura",
-            data: [30, 29, 28, 25, 25, 23],
+            data: [20, 21, 22, 23, 22, 20],
             backgroundColor: "#E37F2A",
             borderWidth: 1,
           },
           {
             label: "Umidade",
-            data: [80, 82, 80, 85, 80, 83],
+            data: [60, 62, 60, 65, 68, 70],
             backgroundColor: "#39842C",
             borderWidth: 1,
           },
@@ -70,7 +204,7 @@
     new Chart(ctxLine, {
       type: "line",
       data: {
-        labels: ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho"],
+        labels: ["12:00", "13:00", "14:00", "15:00", "16:00", "17:00"],
         datasets: [
           {
             label: "Temperatura",
@@ -84,6 +218,29 @@
             data: [90, 89, 93, 87, 88, 82],
             backgroundColor: "#39842C",
             borderColor: "#39842f",
+            borderWidth: 1,
+          },
+        ],
+      },
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true,
+          },
+        },
+      },
+    });
+
+    new Chart(ctxLineTemp, {
+      type: "line",
+      data: {
+        labels: ["12:00", "13:00", "14:00", "15:00", "16:00", "17:00"],
+        datasets: [
+          {
+            label: "Temperatura",
+            data: [22, 24, 27, 23, 20, 18],
+            backgroundColor: "#E37F2A",
+            borderColor: "#E37F2f",
             borderWidth: 1,
           },
         ],
